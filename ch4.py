@@ -16,7 +16,7 @@ STATE_ALONG_WALL = 3
 
 DISTANCE_SAFE = 0.4
 DISTANCE_CLOSE = 0.3
-SPEED = 50
+SPEED = 75
 WALL_MEASURE_ANGLE = 10
 
 def find_center(intensities, low, high):
@@ -56,13 +56,6 @@ def find_center(intensities, low, high):
     end = end % 360
     center = center % 360
 
-    print('center')
-    #print(found)
-    #print(start)
-    #print(end)
-    print(center)
-    print(size)
-
     return center
 
 def next_to_wall(ranges, degree=45):
@@ -90,7 +83,6 @@ class Tb3(Node):
         self.state = STATE_SEARCH
         self.targetAngle = -1
         self.orientation = -1
-        self.angle_factor = 0
 
         self.cmd_vel_pub = self.create_publisher(
                 Twist,      # message type
@@ -148,7 +140,7 @@ class Tb3(Node):
                 self.state = STATE_TO_WALL
 
         if self.state == STATE_TO_WALL:
-            if min_distance < DISTANCE_SAFE:
+            if min_distance < DISTANCE_SAFE * 2:
                 self.vel(0, 0)
                 self.state = STATE_ALONG_WALL
             else:
@@ -160,9 +152,6 @@ class Tb3(Node):
             if center != -1 and abs(center - 270) < 10:
                 self.vel(0, 0)
                 exit()
-
-            #front_distance = msg.ranges[270 + WALL_MEASURE_ANGLE]
-            #back_distance = msg.ranges[270 - WALL_MEASURE_ANGLE]
 
             front_distance = mean(msg.ranges[270:270+WALL_MEASURE_ANGLE])
             back_distance = mean(msg.ranges[270 - WALL_MEASURE_ANGLE:269])
@@ -176,41 +165,26 @@ class Tb3(Node):
             print('front: ', front_distance)
             print('back: ', back_distance)
 
-            angle_factor1 = back_distance - front_distance
-            angle_factor2 = DISTANCE_SAFE - front_distance
-            angle_factor = angle_factor1 + angle_factor2
-            #angle_factor = angle_factor * angle_factor * angle_factor
+            angle_factor_parallel = back_distance - front_distance
+            angle_factor_distance = DISTANCE_SAFE - front_distance
+            angle_factor = angle_factor_parallel + angle_factor_distance
             angle_factor = angle_factor * 2
-            angle_factor = min(1, angle_factor)
-            angle_factor = max(-1, angle_factor)
-
-            self.angle_factor = angle_factor * 0.8 + self.angle_factor * 0.2
+            angle_factor = min(0.75, angle_factor)
+            angle_factor = max(-0.75, angle_factor)
 
             print('angle factor: ', angle_factor)
 
             forward_distance = min_range_forward(msg.ranges,)
             forward_factor = (forward_distance - DISTANCE_CLOSE) / (DISTANCE_SAFE - DISTANCE_CLOSE)
-            #forward_factor = forward_factor * 0.5
             forward_factor = max(0, forward_factor)
             forward_factor = min(0.75, forward_factor)
 
             print('forward factor: ', forward_factor)
 
-            #forward_factor = min(forward_factor, correct_factor)
-
             if forward_distance < DISTANCE_CLOSE:
                 self.vel(0, SPEED)
             else:
-                self.vel(forward_factor * SPEED, self.angle_factor * SPEED)
-
-        """ is run whenever a LaserScan msg is received
-        """
-        print()
-        """print('Distances:')
-        print('⬆️ :', msg.ranges[0])
-        print('⬇️ :', msg.ranges[180])
-        print('⬅️ :', msg.ranges[90])
-        print('➡️ :', msg.ranges[-90])"""
+                self.vel(forward_factor * SPEED, angle_factor * SPEED)
 
 
 def main(args=None):
