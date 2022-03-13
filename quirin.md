@@ -1,4 +1,4 @@
-# Report Wieser Quirin
+# THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)
 
 ## Problems
 
