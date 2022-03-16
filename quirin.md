@@ -1,19 +1,5 @@
 # THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)
 
-## Table of contents
-[Problems](#problems)
-    [Challenge 2: Rotation with laser distance sensor data](#problems2)
-    [Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it](#problems4)
-    [Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating](#problems5)
-    [Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall](#problems55)
-[Relevant Concepts](#relevant)
-[Approaches and Solutions](#approaches)
-    [Challenge 2: Rotation with laser distance sensor data](#approaches2)
-    [Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it](#approaches4)
-    [Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating](#approaches5)
-    [Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall](#approaches55)
-[Results and Takeaways](#results)
-
 ## Problems <a name="problems"></a>
 
 ### Challenge 2: Rotation with laser distance sensor data <a name="problems2"></a>
