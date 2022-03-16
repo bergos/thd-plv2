@@ -1,34 +1,48 @@
 # THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)
 
-## Problems
+## Table of contents
+[Problems](#problems)
+    [Challenge 2: Rotation with laser distance sensor data](#problems2)
+    [Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it](#problems4)
+    [Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating](#problems5)
+    [Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall](#problems55)
+[Relevant Concepts](#relevant)
+[Approaches and Solutions](#approaches)
+    [Challenge 2: Rotation with laser distance sensor data](#approaches2)
+    [Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it](#approaches4)
+    [Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating](#approaches5)
+    [Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall](#approaches55)
+[Results and Takeaways](#results)
 
-### Challenge 2: Rotation with laser distance sensor data
+## Problems <a name="problems"></a>
+
+### Challenge 2: Rotation with laser distance sensor data <a name="problems2"></a>
 The first problem we faced was in challenge two. The task was to rotate the robot approximately 90 degrees, using only laser distance sensor data. We quickly realised that the robot was rotating at a different angle with each execution, even though we changed nothing in the code. The robot would either turn more than 90 degrees or would turn not enough. It was rare that the robot turned exactly or near 90 degrees and was very dependent on luck.
 
-### Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+### Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it <a name="problems4"></a>
 The next problem we faced was in challenge four. The task was for the robot to recognize a red wall, drive to it and stop in front of it. The problem was, that when the robot saw part of the red wall around a divider wall, the robot would start driving towards the red wall and then approach the divider wall and stop in front of it, essentially getting stuck.
 
-### Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+### Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating <a name="problems5"></a>
 The next problem we faced was in challenge five, although it is rather a small problem. Sometimes when the robot drove into a specific corner, it would drive too close to the walls, and knock over a wall when rotating. However, this problem was only present in one specific corner and we were not able to reproduce this problem in other corners.
 
-### Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+### Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall <a name="problems55"></a>
 The last major problem we faced, was also in challenge five. The task is the same as in challenge 4, but this time the maze was more complex and intricate, with more corners and divider walls to drive around. The problem in this challenge was, that there were several divider walls in the maze, where the robot had to drive around the divider wall and do a 180-degree turn, then keep driving forward. With our initial code, the robot was not able to rotate fast and sharp enough, but would instead drive forward instead of rotating enough and then recognize the wall in front of it and go back the way it came from, essentially being stuck in an endless loop. At other times, the robot would just rotate endlessly after passing a divider wall, instead of driving forward.
 
-## Relevant Concepts
+## Relevant Concepts <a name="relevant"></a>
 
-## Approaches and Solutions
+## Approaches and Solutions <a name="approaches"></a>
 
-### Challenge 2: Rotation with laser distance sensor data
+### Challenge 2: Rotation with laser distance sensor data <a name="approaches2"></a>
 Our approach to solving challenge two was to make use of the `sleep()` function and have the robot sleep for a certain amount of time, that we specified by using a calculation to determine how long the robot would take to turn approximately 90 degrees, while it rotates. Once the time we specified was over, the robot would stop rotating and move forward. However, we encountered the problem that the rotation was somewhat random, as mentioned above. After observing a few simulations, we started changing the way we calculate the time, adding factors and using trial and error to determine if we can eliminate, or at least minimize the randomness of the rotation angle. However, despite all this, we could not figure out how to fix the randomness with this approach. So instead of starting over and implementing a different approach, we decided to move on to the next challenge, since it was about using Odometry to rotate the robot, instead of the laser distance sensor, and we figured that this approach would be more accurate and reliable. In hindsight, it was the right choice, as we were correct in that Odometry was a much better method of rotating the robot, and we ended up using Odometry for challenges four and five.
 
-### Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+### Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it <a name="approaches4"></a>
 Originally we thought that our first approach would not have this problem, since before starting to write the code for this challenge, we thought about this problem beforehand and realised that it will become an issue if we just program the robot to drive towards the red wall if it sees it. Because of this, we did not program our robot to drive to any part of the wall, but to first off find and then drive towards the centre of the red wall. In order to achieve that, we created the `find_center` method, as explained above in **Relevant Concepts**. Our thought was, that when the robot stops in front of the divider wall, it would automatically slowly correct itself with each spin, based on how much of the red wall is visible to him and then make its way slowly around the divider wall. However, since this was not the case, we tried to change and add some factors to make the robot correct itself faster and at a sharper angle and to make the robot move backwards in a curve so it can better adjust, but after several hours eventually decided to give up on this approach and implement the approach explained in **Relevant Concepts**. With the new approach, this particular problem was solved.
 
-### Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+### Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating <a name="approaches5"></a>
 When first observing this problem, we were surprised, since we specifically programmed the robot to stop at a safe distance before a wall, which allows the robot to rotate without colliding with a wall. We were even more surprised to see that the robot could navigate the entire maze, including other corners, without colliding with another wall or corner and that the robot would not always collide with that specific corner, but instead, it was seemingly random. We tried tweaking and changing the distance at which the robot stops in front of a wall before rotating, but it did not change anything. The robot would still sometimes collide with the wall in that specific corner and sometimes he would be able to rotate in that corner without colliding with anything. Since it was seemingly random and only appeared in that one corner and we were clueless as to what caused this, we decided to leave it as it is and ignore that problem, since it was not that big of an issue, as it only appeared in that one corner.
 
-### Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+### Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall <a name="approaches55"></a>
 With our first approach we noticed that the `is_next_to_wall` variable would be `False` at some point when the robot was driving past the divider wall because after doing a 90-degree rotation and driving past the divider wall, it did not realise that it had to do another 90-degree rotation and drive alongside the divider wall. Instead, it was searching for a new wall and found the wall in front of it, which led to it driving backwards and being stuck in an endless loop. After trying to solve the problem by changing some factors like the speed at which the robot moves, the maximum angle at which it can turn and the distance at which it drives alongside the walls, we came to the conclusion that the robot not only had to maintain a consistent distance to the walls but also that it has to always be parallel to it. We originally thought that by maintaining a constant distance at all times, the robot would automatically correct itself every now and then and be parallel to the walls. It worked for corners and normal walls, but not for divider walls. Once we implemented both the consistent distance and the fact that the robot always tries to move parallel to the walls and after changing some more factors and trying to weigh one of the two conditions more than the other it eventually worked and the robot successfully did a 180-degree rotation while driving around the divider wall, without getting stuck or colliding with it. We also tried this in some 1x1 alcoves in the simulation maze and the robot was successfully able to navigate them.
 
-## Results and Takeaways
+## Results and Takeaways <a name="results"></a>
 The final result of our work is a code that allows the robot to navigate pretty much any simple maze and stop when it reaches a red wall, without colliding with any other walls or getting lost or stuck. One of my biggest takeaways was how complex and difficult programming a robot really is. When you have no prior experience with programming a robot, you would think that it is not that hard to tell the robot what to do. In our first on-campus session, I thought that I would just have to implement some if-else conditions to tell the robot what to do in certain situations. However as it turned out, even seemingly simple tasks like just rotating 90-degrees using laser distance sensor data turned out to be quite a problem and proved a lot more difficult than originally thought. Furthermore, the robot's behaviour can be unpredictable when certain values or factors are not correct and we often had the case while trying out our code that the robot did something completely different than what we expected it to do, which cost us a lot of time and nerves. To put it in a nutshell my biggest takeaway was that when working with robots and programming robots you should never underestimate the amount of work, time and knowledge that is required to correctly program the robot. Even if it is a seemingly simple task that you want the robot to accomplish you always have to expect that things are not going to go the way you think and you always have to be flexible and come up with new solutions and approaches on the spot, instead of letting it demotivate you or make you give up because eventually, after a lot of trial and error, you will get the right solution, even if it is not what you thought it would be. Apart from that, this was my first experience with robots and how to program them and I have learned quite a lot about it in a short time span. This first experience and gained knowledge will surely help me in future university courses and Artificial Intelligence projects, both in university and in my future workplace.
