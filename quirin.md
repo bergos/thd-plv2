@@ -53,7 +53,7 @@ This method returns `True` if the robot is close enough near a wall within a 45-
                 self.vel(SPEED, 0)
 ```
 
-If the robot is in this state, it means that the robot can not detect a wall at the right side. Similar to the previous state, `STATE_SEARCH`, this state just contains an if-else statement. If the robot is not in front of a wall, it just keeps driving forward. When the robot is a certain distance away from the wall, it stops and goes into the state `STATE_ALONG_WALL`. The `DISTANCE_SAFE * 2` is the maximum distance the robot is allowed to come near the wall to prevent the robot from colliding with the wall and also giving it enough space to be able to rotate without colliding with a wall.
+If the robot is in this state, it means that the robot can not detect a wall at the right side. Similar to the previous state, `STATE_SEARCH`, this state just contains an if-else statement. If the robot is not in front of a wall, it just keeps driving forward. When the robot is a certain distance away from the wall, it stops and goes into the state `STATE_ALONG_WALL`. The `DISTANCE_SAFE * 2` is the maximum distance the robot is allowed to drive to the wall to prevent the robot from colliding with the wall and also giving it enough space to be able to rotate without colliding with a wall.
 
 ## Approaches and Solutions
 
