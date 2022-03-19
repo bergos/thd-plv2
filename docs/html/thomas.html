@@ -135,6 +135,75 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Inhalt
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenge-4-first-approach">
+   Challenge 4 - First approach
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detect-the-center-of-the-red-wall">
+     Detect the center of the red wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#approaching-the-red-wall">
+     Approaching the red wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#find-the-red-wall">
+     Find the red wall
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenges-4-5">
+   Challenges 4 &amp; 5
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-machine">
+     State machine
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation-details">
+     Implementation Details
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#event-handling">
+       Event Handling
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#control-loop">
+       Control Loop
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#detect-being-next-to-the-red-wall">
+       Detect being next to the red wall
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#problems-and-possible-future-improvements">
+     Problems and possible future improvements
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -147,6 +216,75 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Inhalt </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenge-4-first-approach">
+   Challenge 4 - First approach
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detect-the-center-of-the-red-wall">
+     Detect the center of the red wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#approaching-the-red-wall">
+     Approaching the red wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#find-the-red-wall">
+     Find the red wall
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#challenges-4-5">
+   Challenges 4 &amp; 5
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-machine">
+     State machine
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#implementation-details">
+     Implementation Details
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#event-handling">
+       Event Handling
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#control-loop">
+       Control Loop
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#detect-being-next-to-the-red-wall">
+       Detect being next to the red wall
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#problems-and-possible-future-improvements">
+     Problems and possible future improvements
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -155,6 +293,103 @@
                 
   <div class="section" id="thd-plv2-turtlebot3-maze-challenges-thomas-bergwinkl">
 <h1>THD-PLV2 - Turtlebot3 maze challenges (Thomas Bergwinkl)<a class="headerlink" href="#thd-plv2-turtlebot3-maze-challenges-thomas-bergwinkl" title="Permalink to this headline">¶</a></h1>
+<p>The challenges 0 to 3 focus more on the usage of the API.
+This document is about approaches for autonomous robots, and that’s why the first four challenges are not covered.</p>
+<div class="section" id="challenge-4-first-approach">
+<h2>Challenge 4 - First approach<a class="headerlink" href="#challenge-4-first-approach" title="Permalink to this headline">¶</a></h2>
+<p>The maze of challenge 4 is U-shaped and would require two 90 degree turns in the most basic version to get from the starting point to the red wall.</p>
+<p>We started with a technical description of the goal and a programmatic way to check if the goal was reached.
+That allows us to break down all other steps in between.</p>
+<div class="section" id="detect-the-center-of-the-red-wall">
+<h3>Detect the center of the red wall<a class="headerlink" href="#detect-the-center-of-the-red-wall" title="Permalink to this headline">¶</a></h3>
+<p>The goal is to drive the robot in front of the red wall and stop there.
+More precisely, we want to reach the point 90 degrees in front of the center of the red wall with a predefined safe distance.<br />
+After some debugging, we knew that the LIDAR sensor could provide us all the required information.
+The <code class="docutils literal notranslate"><span class="pre">intensity</span></code> value is <code class="docutils literal notranslate"><span class="pre">2.0</span></code> if the laser hits a red wall.
+Since there could be some noise in the signal, a range between <code class="docutils literal notranslate"><span class="pre">1.5</span></code> and <code class="docutils literal notranslate"><span class="pre">2.5</span></code> is used for the detection.
+The <code class="docutils literal notranslate"><span class="pre">ranges</span></code> values can be used to measure the distance.
+This information is available for full 360 degrees in 1 degree steps.
+If there is a hit to a red wall, the start and end can be found by searching for all consecutive values in both directions.
+Some additional logic is required to jump from 360 to 0 degrees if the line crosses 0 degrees.
+The center of the line is the center of the red wall.</p>
+</div>
+<div class="section" id="approaching-the-red-wall">
+<h3>Approaching the red wall<a class="headerlink" href="#approaching-the-red-wall" title="Permalink to this headline">¶</a></h3>
+<p>Once the red wall is found, the robot can turn towards the center of the red wall and move forward until the <code class="docutils literal notranslate"><span class="pre">ranges</span></code> value for 0 degrees is equal to or smaller than the safe distance.
+Until the robot stops, the center of the red wall is continuously recalculated, and the direction is corrected for better results.</p>
+</div>
+<div class="section" id="find-the-red-wall">
+<h3>Find the red wall<a class="headerlink" href="#find-the-red-wall" title="Permalink to this headline">¶</a></h3>
+<p>Until a red wall is found, the following steps were processed:</p>
+<ol class="arabic simple">
+<li><p>detect red wall</p></li>
+<li><p>turn 90 degree</p></li>
+<li><p>move forward until the distance to the wall is equals to or smaller than the safe distance</p></li>
+<li><p>goto 1)</p></li>
+</ol>
+<p>Because of the safety gaps we had to add, the robot was lost in an endless loop or lost in a corner.
+Some simple recovery strategies were tested with mixed results.
+After we had a look at the maze of challenge 5, we decided to switch to a different approach.</p>
+</div>
+</div>
+<div class="section" id="challenges-4-5">
+<h2>Challenges 4 &amp; 5<a class="headerlink" href="#challenges-4-5" title="Permalink to this headline">¶</a></h2>
+<p>The maze of challenge 5 has more turns than in challenge 4.
+Simple 90 degree turns would almost all the time end up in endless loops.
+Driving along the wall could solve this problem.
+No matter how many turns there are, the walls are always connected, and at some point, the red wall will show up.
+Before the robot can drive along the wall, it needs to reach the wall.
+A state machine is used to handle these steps.</p>
+<div class="section" id="state-machine">
+<h3>State machine<a class="headerlink" href="#state-machine" title="Permalink to this headline">¶</a></h3>
+<p><img alt="state diagram" src="_images/state_diagram.svg" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">STATE_SEARCH</span></code> is the initial state when it’s unknown whether the robot is already next to a wall or if it needs to drive towards one first.
+If the robot is not next to a wall, the state is changed to <code class="docutils literal notranslate"><span class="pre">STATE_TO_WALL</span></code>.
+In this state, the robot will drive forward until the LIDAR measures a distance smaller than a configured safe distance.
+The distance is measured 360 degrees in case the next wall shows up left or right and not in the front.
+Once a wall is found, it switches to state <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>.
+If that state is reached, no further state changes will happen.
+A control loop ensures that the robot stays next to the wall until the red wall is reached.</p>
+</div>
+<div class="section" id="implementation-details">
+<h3>Implementation Details<a class="headerlink" href="#implementation-details" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="event-handling">
+<h4>Event Handling<a class="headerlink" href="#event-handling" title="Permalink to this headline">¶</a></h4>
+<p>All state changes of the state machine are triggered by messages from the LIDAR sensor.
+Only the orientation from the odometry is used as an additional parameter.
+The orientation is assigned to a member variable to make it accessible in the LIDAR callback.
+The state machine handler and the control loop is implemented inside the LIDAR callback.</p>
+</div>
+<div class="section" id="control-loop">
+<h4>Control Loop<a class="headerlink" href="#control-loop" title="Permalink to this headline">¶</a></h4>
+<p>The control loop measures the average distance in a 10 degree window from 270 degrees to the front.
+Based on the difference to the target distance, the angular speed is linear adapted to correct the distance.
+A 50 degree window to the front is used to detect walls or obstacles.
+The linear speed is adapted minimal distance to the front to be able to make more precise movements along corners.
+If the distance is below a certain threshold, the linear speed is set to 0.
+This logic worked pretty well along straight walls but sometimes led to 360 degree turns in corners.
+The robot turned too early, which caused increasing distance measures to the wall.
+A second correction factor was added that contains the ratio of the forward distance (260-270 degrees) and the backward distance (270-280).
+This factor alone could be used to drive parallel to the wall.
+Equally weighted, the combined factor allows the robot to make more stable turns at corners.
+For more stability, the angular speed and the linear speed are clamped in a predefined range.</p>
+</div>
+<div class="section" id="detect-being-next-to-the-red-wall">
+<h4>Detect being next to the red wall<a class="headerlink" href="#detect-being-next-to-the-red-wall" title="Permalink to this headline">¶</a></h4>
+<p>The same logic that was described earlier to find the center of the red wall is also used for this approach.
+As the robot no longer heads directly towards the red wall, the center must be at 270 degrees.
+The robot stops if the center is at 270 degrees with a tolerance of +-10 degrees.</p>
+</div>
+</div>
+<div class="section" id="problems-and-possible-future-improvements">
+<h3>Problems and possible future improvements<a class="headerlink" href="#problems-and-possible-future-improvements" title="Permalink to this headline">¶</a></h3>
+<p>The constants used in the code were chosen by trial and error.
+As they affect each other, tweaking them was sometimes complicated and even led to breaking a previously working solution.
+A full PID controller may have caused less chaotic behavior on changes to the constants.</p>
+<p>The current implementation of the control loop causes some oscillation.
+A PID controller should solve that problem.</p>
+</div>
+</div>
 </div>
 
 
