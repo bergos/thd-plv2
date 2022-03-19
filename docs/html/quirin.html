@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quirin &#8212; THD-PLV2 - Turtlebot3 Challenge  documentation</title>
+    <title>THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser) &#8212; THD-PLV2 - Turtlebot3 Challenge  documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -135,6 +135,100 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Inhalt
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problems">
+   Problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-2-rotation-with-laser-distance-sensor-data">
+     Challenge 2: Rotation with laser distance sensor data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-4-robot-getting-stuck-in-a-divider-wall-if-it-sees-a-part-of-the-red-wall-around-it">
+     Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-moving-too-close-to-the-walls-in-a-corner-and-knocking-over-the-wall-when-rotating">
+     Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-not-rotating-sharp-and-quick-enough-when-having-to-drive-180-degrees-around-a-divider-wall">
+     Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-not-driving-in-a-straight-line-but-swaying-left-and-right">
+     Challenge 5: Robot not driving in a straight line, but swaying left and right
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relevant-concepts">
+   Relevant Concepts
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-search">
+     STATE_SEARCH
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-to-wall">
+     STATE_TO_WALL
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#approaches-and-solutions">
+   Approaches and Solutions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Challenge 2: Rotation with laser distance sensor data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Challenge 5: Robot not driving in a straight line, but swaying left and right
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results-and-takeaways">
+   Results and Takeaways
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -142,19 +236,200 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Quirin</h1>
+                <h1>THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Inhalt </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#problems">
+   Problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-2-rotation-with-laser-distance-sensor-data">
+     Challenge 2: Rotation with laser distance sensor data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-4-robot-getting-stuck-in-a-divider-wall-if-it-sees-a-part-of-the-red-wall-around-it">
+     Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-moving-too-close-to-the-walls-in-a-corner-and-knocking-over-the-wall-when-rotating">
+     Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-not-rotating-sharp-and-quick-enough-when-having-to-drive-180-degrees-around-a-divider-wall">
+     Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#challenge-5-robot-not-driving-in-a-straight-line-but-swaying-left-and-right">
+     Challenge 5: Robot not driving in a straight line, but swaying left and right
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#relevant-concepts">
+   Relevant Concepts
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-search">
+     STATE_SEARCH
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-to-wall">
+     STATE_TO_WALL
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#approaches-and-solutions">
+   Approaches and Solutions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Challenge 2: Rotation with laser distance sensor data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Challenge 5: Robot not driving in a straight line, but swaying left and right
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results-and-takeaways">
+   Results and Takeaways
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="section" id="quirin">
-<h1>Quirin<a class="headerlink" href="#quirin" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="thd-plv2-turtlebot3-maze-challenges-quirin-wieser">
+<h1>THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)<a class="headerlink" href="#thd-plv2-turtlebot3-maze-challenges-quirin-wieser" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="problems">
+<h2>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="challenge-2-rotation-with-laser-distance-sensor-data">
+<h3>Challenge 2: Rotation with laser distance sensor data<a class="headerlink" href="#challenge-2-rotation-with-laser-distance-sensor-data" title="Permalink to this headline">¶</a></h3>
+<p>The first problem we faced was in challenge two. The task was to rotate the robot approximately 90 degrees, using only laser distance sensor data. We quickly realised that the robot was rotating at a different angle with each execution, even though we changed nothing in the code. The robot would either turn more than 90 degrees or would turn not enough. It was rare that the robot turned exactly or near 90 degrees and was very dependent on luck.</p>
+</div>
+<div class="section" id="challenge-4-robot-getting-stuck-in-a-divider-wall-if-it-sees-a-part-of-the-red-wall-around-it">
+<h3>Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it<a class="headerlink" href="#challenge-4-robot-getting-stuck-in-a-divider-wall-if-it-sees-a-part-of-the-red-wall-around-it" title="Permalink to this headline">¶</a></h3>
+<p>The next problem we faced was in challenge four. The task was for the robot to recognize a red wall, drive to it and stop in front of it. The problem was, that when the robot saw part of the red wall around a divider wall, the robot would start driving towards the red wall and then approach the divider wall and stop in front of it, essentially getting stuck.</p>
+</div>
+<div class="section" id="challenge-5-robot-moving-too-close-to-the-walls-in-a-corner-and-knocking-over-the-wall-when-rotating">
+<h3>Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating<a class="headerlink" href="#challenge-5-robot-moving-too-close-to-the-walls-in-a-corner-and-knocking-over-the-wall-when-rotating" title="Permalink to this headline">¶</a></h3>
+<p>The next problem we faced was in challenge five, although it is rather a small problem. Sometimes when the robot drove into a specific corner, it would drive too close to the walls, and knock over a wall when rotating. However, this problem was only present in one specific corner and we were not able to reproduce this problem in other corners.</p>
+</div>
+<div class="section" id="challenge-5-robot-not-rotating-sharp-and-quick-enough-when-having-to-drive-180-degrees-around-a-divider-wall">
+<h3>Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall<a class="headerlink" href="#challenge-5-robot-not-rotating-sharp-and-quick-enough-when-having-to-drive-180-degrees-around-a-divider-wall" title="Permalink to this headline">¶</a></h3>
+<p>The last major problem we faced, was also in challenge five. The task is the same as in challenge 4, but this time the maze was more complex and intricate, with more corners and divider walls to drive around. The problem in this challenge was, that there were several divider walls in the maze, where the robot had to drive around the divider wall and do a 180-degree turn, then keep driving forward. With our initial code, the robot was not able to rotate fast and sharp enough, but would instead drive forward instead of rotating enough and then recognize the wall in front of it and go back the way it came from, essentially being stuck in an endless loop. At other times, the robot would just rotate endlessly after passing a divider wall, instead of driving forward.</p>
+</div>
+<div class="section" id="challenge-5-robot-not-driving-in-a-straight-line-but-swaying-left-and-right">
+<h3>Challenge 5: Robot not driving in a straight line, but swaying left and right<a class="headerlink" href="#challenge-5-robot-not-driving-in-a-straight-line-but-swaying-left-and-right" title="Permalink to this headline">¶</a></h3>
+<p>This is not really a problem but more a minor inconvenience. When driving alongside a wall the robot will not drive in a straight line. Instead, it swerves to the left, away from the wall and then back towards the wall over and over again while driving forward. This is due to the robot trying to both maintain a certain distance to the wall, while also being parallel to it.</p>
+</div>
+</div>
+<div class="section" id="relevant-concepts">
+<h2>Relevant Concepts<a class="headerlink" href="#relevant-concepts" title="Permalink to this headline">¶</a></h2>
+<p>The way our code works and the basic concept of it is quite simple. The robot always searches for and drives alongside the right wall, until it reaches a red wall, at which point the robot stops and the program exits. For that, we have defined three states: <code class="docutils literal notranslate"><span class="pre">STATE_SEARCH</span></code>, <code class="docutils literal notranslate"><span class="pre">STATE_TO_WALL</span></code> and <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>. Each of these states contains instructions on what the robot should do, depending on what state it is in and each of these states is in the <code class="docutils literal notranslate"><span class="pre">scan_callback</span></code> function, which means that they will be executed over and over again through the <code class="docutils literal notranslate"><span class="pre">rclpy.spin</span></code> function.</p>
+<div class="section" id="state-search">
+<h3>STATE_SEARCH<a class="headerlink" href="#state-search" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> self.state <span class="o">==</span> STATE_SEARCH:
+            <span class="k">if</span> is_next_to_wall:
+                self.state <span class="o">=</span> STATE_ALONG_WALL
+            <span class="k">else</span>:
+                self.state <span class="o">=</span> STATE_TO_WALL
+</pre></div>
+</div>
+<p>This is the state that the robot first starts in when the code is executed. In a nutshell, this state checks if the robot is next to a wall or not. All this state contains is a simple if-else statement that checks if the <code class="docutils literal notranslate"><span class="pre">is_next_to_wall</span></code> variable is <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>. The <code class="docutils literal notranslate"><span class="pre">is_next_to_wall</span></code> variable shows if there is a wall to the right side of the robot. The way we have defined that is by implementing a function called <code class="docutils literal notranslate"><span class="pre">next_to_wall</span></code> and assigning the <code class="docutils literal notranslate"><span class="pre">is_next_to_wall</span></code> variable to this function. If the variable <code class="docutils literal notranslate"><span class="pre">is_next_to_wall</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> then the robot goes into the state <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>, if it is <code class="docutils literal notranslate"><span class="pre">False</span></code> the robot goes into the state <code class="docutils literal notranslate"><span class="pre">STATE_TO_WALL</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>def next_to_wall<span class="o">(</span>ranges, <span class="nv">degree</span><span class="o">=</span><span class="m">45</span><span class="o">)</span>:
+    <span class="nv">distance</span> <span class="o">=</span> min<span class="o">(</span>ranges<span class="o">[</span><span class="m">270</span>-degree:270+degree-1<span class="o">])</span>
+
+    <span class="k">if</span> distance &lt; DISTANCE_SAFE:
+        <span class="k">return</span> True
+
+    <span class="k">return</span> False
+</pre></div>
+</div>
+<p>This method returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if the robot is close enough near a wall within a 45-degree angle to the right side and <code class="docutils literal notranslate"><span class="pre">False</span></code> if it is not. To make sure that the robot does not collide with any walls, we have defined a variable called <code class="docutils literal notranslate"><span class="pre">DISTANCE_SAFE</span></code> which ensures that the method <code class="docutils literal notranslate"><span class="pre">next_to_wall</span></code> returns <code class="docutils literal notranslate"><span class="pre">True</span></code> soon enough that the robot leaves this state before colliding with a wall.</p>
+</div>
+<div class="section" id="state-to-wall">
+<h3>STATE_TO_WALL<a class="headerlink" href="#state-to-wall" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> self.state <span class="o">==</span> STATE_TO_WALL:
+            <span class="k">if</span> min_distance &lt; DISTANCE_SAFE * <span class="m">2</span>:
+                self.vel<span class="o">(</span><span class="m">0</span>, <span class="m">0</span><span class="o">)</span>
+                self.state <span class="o">=</span> STATE_ALONG_WALL
+            <span class="k">else</span>:
+                self.vel<span class="o">(</span>SPEED, <span class="m">0</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>If the robot is in this state, it means that the robot can not detect a wall at the right side. Similar to the previous state, <code class="docutils literal notranslate"><span class="pre">STATE_SEARCH</span></code>, this state just contains an if-else statement. If the robot is not in front of a wall, it just keeps driving forward. When the robot is a certain distance away from the wall, it stops and goes into the state <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>. The <code class="docutils literal notranslate"><span class="pre">DISTANCE_SAFE</span> <span class="pre">*</span> <span class="pre">2</span></code> is the maximum distance the robot is allowed to drive to the wall to prevent the robot from colliding with the wall and also giving it enough space to be able to rotate without colliding with a wall.</p>
+</div>
+</div>
+<div class="section" id="approaches-and-solutions">
+<h2>Approaches and Solutions<a class="headerlink" href="#approaches-and-solutions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Challenge 2: Rotation with laser distance sensor data<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Our approach to solving challenge two was to make use of the <code class="docutils literal notranslate"><span class="pre">sleep()</span></code> function and have the robot sleep for a certain amount of time, that we specified by using a calculation to determine how long the robot would take to turn approximately 90 degrees, while it rotates. Once the time we specified was over, the robot would stop rotating and move forward. However, we encountered the problem that the rotation was somewhat random, as mentioned above. After observing a few simulations, we started changing the way we calculate the time, adding factors and using trial and error to determine if we can eliminate, or at least minimize the randomness of the rotation angle. However, despite all this, we could not figure out how to fix the randomness with this approach. So instead of starting over and implementing a different approach, we decided to move on to the next challenge, since it was about using Odometry to rotate the robot, instead of the laser distance sensor, and we figured that this approach would be more accurate and reliable. In hindsight, it was the right choice, as we were correct in that Odometry was a much better method of rotating the robot, and we ended up using Odometry for challenges four and five.</p>
+</div>
+<div class="section" id="id2">
+<h3>Challenge 4: Robot getting stuck in a divider wall if it sees a part of the red wall around it<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Originally we thought that our first approach would not have this problem, since before starting to write the code for this challenge, we thought about this problem beforehand and realised that it will become an issue if we just program the robot to drive towards the red wall if it sees it. Because of this, we did not program our robot to drive to any part of the wall, but to first off find and then drive towards the centre of the red wall. In order to achieve that, we created the <code class="docutils literal notranslate"><span class="pre">find_center</span></code> function, as explained above in <strong>Relevant Concepts</strong>. Our thought was, that when the robot stops in front of the divider wall, it would automatically slowly correct itself with each spin, based on how much of the red wall is visible to him and then make its way slowly around the divider wall. However, since this was not the case, we tried to change and add some factors to make the robot correct itself faster and at a sharper angle and to make the robot move backwards in a curve so it can better adjust, but after several hours eventually decided to give up on this approach and implement the approach explained in <strong>Relevant Concepts</strong>. With the new approach, this particular problem was solved.</p>
+</div>
+<div class="section" id="id3">
+<h3>Challenge 5: Robot moving too close to the walls in a corner and knocking over the wall when rotating<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>When first observing this problem, we were surprised, since we specifically programmed the robot to stop at a safe distance before a wall, which allows the robot to rotate without colliding with a wall. We were even more surprised to see that the robot could navigate the entire maze, including other corners, without colliding with another wall or corner and that the robot would not always collide with that specific corner, but instead, it was seemingly random. We tried tweaking and changing the distance at which the robot stops in front of a wall before rotating, but it did not change anything. The robot would still sometimes collide with the wall in that specific corner and sometimes he would be able to rotate in that corner without colliding with anything. Since it was seemingly random and only appeared in that one corner and we were clueless as to what caused this, we decided to leave it as it is and ignore that problem, since it was not that big of an issue, as it only appeared in that one corner.</p>
+</div>
+<div class="section" id="id4">
+<h3>Challenge 5: Robot not rotating sharp and quick enough when having to drive 180 degrees around a divider wall<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>With our first approach we noticed that the <code class="docutils literal notranslate"><span class="pre">is_next_to_wall</span></code> variable would be <code class="docutils literal notranslate"><span class="pre">False</span></code> at some point when the robot was driving past the divider wall because after doing a 90-degree rotation and driving past the divider wall, it did not realise that it had to do another 90-degree rotation and drive alongside the divider wall. Instead, it was searching for a new wall and found the wall in front of it, which led to it driving backwards and being stuck in an endless loop. After trying to solve the problem by changing some factors like the speed at which the robot moves, the maximum angle at which it can turn and the distance at which it drives alongside the walls, we came to the conclusion that the robot not only had to maintain a consistent distance to the walls but also that it has to always be parallel to it. We originally thought that by maintaining a constant distance at all times, the robot would automatically correct itself every now and then and be parallel to the walls. It worked for corners and normal walls, but not for divider walls. Once we implemented both the consistent distance and the fact that the robot always tries to move parallel to the walls and after changing some more factors and trying to weigh one of the two conditions more than the other it eventually worked and the robot successfully did a 180-degree rotation while driving around the divider wall, without getting stuck or colliding with it. We also tried this in some 1x1 alcoves in the simulation maze and the robot was successfully able to navigate them.</p>
+</div>
+<div class="section" id="id5">
+<h3>Challenge 5: Robot not driving in a straight line, but swaying left and right<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>We tried fixing this problem last after the code was all finished and the robot had successfully gone through the maze several times. We tried to adjust some factors and weigh one of the two conditions, maintaining distance and being parallel, more than the other but it had no effect. Since we discovered this at the end of the course and this does not cause any issues since the spaces in the maze are more than wide enough for the robot to not collide with anything, we quickly gave up on trying to fix it and were satisfied with our code.</p>
+</div>
+</div>
+<div class="section" id="results-and-takeaways">
+<h2>Results and Takeaways<a class="headerlink" href="#results-and-takeaways" title="Permalink to this headline">¶</a></h2>
+<p>The final result of our work is a code that allows the robot to navigate pretty much any simple maze and stop when it reaches a red wall, without colliding with any other walls or getting lost or stuck. One of my biggest takeaways was how complex and difficult programming a robot really is. When you have no prior experience with programming a robot, you would think that it is not that hard to tell the robot what to do. In our first on-campus session, I thought that I would just have to implement some if-else conditions to tell the robot what to do in certain situations. However as it turned out, even seemingly simple tasks like just rotating 90-degrees using laser distance sensor data turned out to be quite a problem and proved a lot more difficult than originally thought. Furthermore, the robot’s behaviour can be unpredictable when certain values or factors are not correct and we often had the case while trying out our code that the robot did something completely different than what we expected it to do, which cost us a lot of time and nerves. To put it in a nutshell my biggest takeaway was that when working with robots and programming robots you should never underestimate the amount of work, time and knowledge that is required to correctly program the robot. Even if it is a seemingly simple task that you want the robot to accomplish you always have to expect that things are not going to go the way you think and you always have to be flexible and come up with new solutions and approaches on the spot, instead of letting it demotivate you or make you give up because eventually, after a lot of trial and error, you will get the right solution, even if it is not what you thought it would be. Apart from that, this was my first experience with robots and how to program them and I have learned quite a lot about it in a short time span. This first experience and gained knowledge will surely help me in future university courses and Artificial Intelligence projects, both in university and in my future workplace.</p>
+</div>
 </div>
 
 
