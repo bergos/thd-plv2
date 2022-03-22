@@ -20,6 +20,8 @@ This is not really a problem but more a minor inconvenience. When driving alongs
 ## Relevant Concepts
 The way our code works and the basic concept of it is quite simple. The robot always searches for and drives alongside the right wall, until it reaches a red wall, at which point the robot stops and the program exits. For that, we have defined three states: `STATE_SEARCH`, `STATE_TO_WALL` and `STATE_ALONG_WALL`. Each of these states contains instructions on what the robot should do, depending on what state it is in and each of these states is in the `scan_callback` function, which means that they will be executed over and over again through the `rclpy.spin` function.
 
+![state diagram](_static/state_diagram.svg)
+
 ### STATE_SEARCH
 
 ```sh
@@ -56,6 +58,28 @@ This method returns `True` if the robot is close enough near a wall within a 45-
 ```
 
 If the robot is in this state, it means that the robot can not detect a wall at the right side. Similar to the previous state, `STATE_SEARCH`, this state just contains an if-else statement. If the robot is not in front of a wall, it just keeps driving forward. When the robot is a certain distance away from the wall, it stops and goes into the state `STATE_ALONG_WALL`. The `DISTANCE_SAFE * 2` is the maximum distance the robot is allowed to drive to the wall to prevent the robot from colliding with the wall and also giving it enough space to be able to rotate without colliding with a wall.
+
+### STATE_ALONG_WALL
+
+```sh
+        if self.state == STATE_ALONG_WALL:
+            center = find_center(msg.intensities, 1.5, 2.5)
+
+            if center != -1 and abs(center - 270) < 10:
+                self.vel(0, 0)
+                exit()
+```
+
+If the robot is in this state, it means that it found a wall on the right side and it drove towards it. The first thing the robot does is check if the wall that it is next to is the red wall. This is being done through the `find_center` function, which checks if the robot is near the center of a red wall, based on intensities returned from the scan. If the wall the robot is next to has an intensity of 2, meaning that it is red, and if it is in the center of the red wall, with an error range of +- 10 degrees, the robot stops and the program exits.
+
+```sh
+            if forward_distance < DISTANCE_CLOSE:
+                self.vel(0, SPEED)
+            else:
+                self.vel(forward_factor * SPEED, angle_factor * SPEED)
+```
+
+If the robot is not next to the red wall, it will just keep driving alongside the wall until it detects a wall in front of it, in which case it will rotate and continue to drive alongside the walls. We have defined the factors `forward_factor` and `angle_factor` so that the robot's speed is dependent on the distance to the walls. This way we avoid the robot driving too fast towards a wall and not being able to rotate in time, when it has to do a 180-degree rotation around a divider wall for example.
 
 ## Approaches and Solutions
 
