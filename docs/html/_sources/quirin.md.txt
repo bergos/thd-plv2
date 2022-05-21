@@ -1,5 +1,36 @@
 # THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)
 
+## Introduction
+
+This report contains documentation of our activities during the university course PLV2 in the winter semester of 2021. The goal was to program a Turtlebot so that it can navigate simple mazes, in real life as well as in a simulation, without driving against the walls. There were five challenges in total and in later challenges the additional task was for the robot to detect red walls and stop when he is near them. In this report, I will first talk about the theoretical part of the course so that the relevant concepts of how we programmed the robot are clear. What is ROS2, what are nodes and what are topics? After that, I will move on to the practical part of the course. Thomas Bergwinkl and I have worked together on programming the robot and I will first off highlight some of the problems we have faced in the individual challenges, in order to show that programming a robot is not as simple as one might think. After that I will go over the relevant concepts of our final code: I will show all the different states the robot can be in and I will explain what each of these states does based on small code fragments from our actual final code, so you can get a deeper understanding of how exactly programming a robot works. Afterwards, I will showcase the different approaches and solutions that we have taken for the individual challenges to attempt to solve the different problems we faced in them. In the end, I will give my personal opinion on how it is to program a robot with ROS2 and what I have learned from this course.
+
+## ROS2 Concepts
+
+ROS stands for "Robot Operating System" and is a set of software libraries and tools for building robot applications. To put it more simply, ROS2 allows you to control the robot and determine how the robot will interact with its environment under certain circumstances. For example, using ROS2 you can get data from sensors that are attached to the robot and with this data, you can then write a python script to program the robot to behave in a specific way for specific data values. To understand how this works you need to understand two important concepts of ROS2: Nodes and Topics. Nodes and Topics work hand in hand and therefore you have to understand both. I will start with ROS2 Nodes: One ROS2 Node is responsible for handling one component of the robot, for example, the sensor. Therefore it is logical to assume that you need multiple Nodes to be able to control any part of the robot. Now, these Nodes can send messages that contain data to other Nodes, allowing the individual parts of the robot to communicate with each other. This works based on the Publisher-Subscriber principle. Nodes that send messages to other nodes are Publishers, Nodes that receive data from other Nodes are called subscribers. A node can also be a subscriber and publisher at the same time. A good analogy is newspaper subscriptions: People subscribe to certain magazines or newspapers to receive them regularly, which makes them subscribers. The newspaper company that is printing them and sending them out is the publisher. Now, these messages the nodes are publishing do not go directly to the respective subscriber nodes. Instead they go to Topics. Topics are responsible for exchanging messages between Nodes and making sure that the right message goes to the right Node. For example: A publisher Node has two Nodes that are subscribed to it. The publisher Node now does not directly send the messages to the two subscriber Nodes, but instead sends it to a Topic which then distributes the message to the two subscriber Nodes. Coming back to the newspaper analogy: The newspaper company does not directly deliver the magazines or newspaper to each individual customer, but instead gives it to a post office, which in this case would be the Topic, and this Post office then distributes the newspapers to all the subscribed customers.
+
+![nodes_topics](_static/nodes_topics.svg)
+
+```python
+        self.cmd_vel_pub = self.create_publisher(
+                Twist,      # message type
+                'cmd_vel',  # topic name
+                1)          # history depth
+
+        self.scan_sub = self.create_subscription(
+                LaserScan,
+                'scan',
+                self.scan_callback,  # function to run upon message arrival
+                qos_profile_sensor_data)  # allows packet loss
+
+        self.odom_sub = self.create_subscription(
+                Odometry,
+                'odom',
+                self.odom_callback,
+                qos_profile_sensor_data)
+```
+
+In our case in our code, we publish information to the wheels, which is `cmd_vel_pub`, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. Each of these Nodes also has a Topic associated with them that handles the exchange of messages regarding this Node. Lastly, the two subcriber Nodes `scan_sub` and `odom_sub` each have a function associated to them that executes each time a message is received by the respective Node. The Node `scan_sub` has the function `scan_callback` associated to it, while the Node `odom_sub` has the function `odom_callback` associated to it.
+
 ## Problems
 
 ### Challenge 2: Rotation with laser distance sensor data

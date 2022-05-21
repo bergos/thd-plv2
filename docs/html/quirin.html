@@ -141,6 +141,16 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ros2-concepts">
+   ROS2 Concepts
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problems">
    Problems
   </a>
@@ -252,6 +262,16 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ros2-concepts">
+   ROS2 Concepts
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#problems">
    Problems
   </a>
@@ -353,6 +373,34 @@
                 
   <div class="section" id="thd-plv2-turtlebot3-maze-challenges-quirin-wieser">
 <h1>THD-PLV2 - Turtlebot3 maze challenges (Quirin Wieser)<a class="headerlink" href="#thd-plv2-turtlebot3-maze-challenges-quirin-wieser" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This report contains documentation of our activities during the university course PLV2 in the winter semester of 2021. The goal was to program a Turtlebot so that it can navigate simple mazes, in real life as well as in a simulation, without driving against the walls. There were five challenges in total and in later challenges the additional task was for the robot to detect red walls and stop when he is near them. In this report, I will first talk about the theoretical part of the course so that the relevant concepts of how we programmed the robot are clear. What is ROS2, what are nodes and what are topics? After that, I will move on to the practical part of the course. Thomas Bergwinkl and I have worked together on programming the robot and I will first off highlight some of the problems we have faced in the individual challenges, in order to show that programming a robot is not as simple as one might think. After that I will go over the relevant concepts of our final code: I will show all the different states the robot can be in and I will explain what each of these states does based on small code fragments from our actual final code, so you can get a deeper understanding of how exactly programming a robot works. Afterwards, I will showcase the different approaches and solutions that we have taken for the individual challenges to attempt to solve the different problems we faced in them. In the end, I will give my personal opinion on how it is to program a robot with ROS2 and what I have learned from this course.</p>
+</div>
+<div class="section" id="ros2-concepts">
+<h2>ROS2 Concepts<a class="headerlink" href="#ros2-concepts" title="Permalink to this headline">¶</a></h2>
+<p>ROS stands for “Robot Operating System” and is a set of software libraries and tools for building robot applications. To put it more simply, ROS2 allows you to control the robot and determine how the robot will interact with its environment under certain circumstances. For example, using ROS2 you can get data from sensors that are attached to the robot and with this data, you can then write a python script to program the robot to behave in a specific way for specific data values. To understand how this works you need to understand two important concepts of ROS2: Nodes and Topics. Nodes and Topics work hand in hand and therefore you have to understand both. I will start with ROS2 Nodes: One ROS2 Node is responsible for handling one component of the robot, for example, the sensor. Therefore it is logical to assume that you need multiple Nodes to be able to control any part of the robot. Now, these Nodes can send messages that contain data to other Nodes, allowing the individual parts of the robot to communicate with each other. This works based on the Publisher-Subscriber principle. Nodes that send messages to other nodes are Publishers, Nodes that receive data from other Nodes are called subscribers. A node can also be a subscriber and publisher at the same time. A good analogy is newspaper subscriptions: People subscribe to certain magazines or newspapers to receive them regularly, which makes them subscribers. The newspaper company that is printing them and sending them out is the publisher. Now, these messages the nodes are publishing do not go directly to the respective subscriber nodes. Instead they go to Topics. Topics are responsible for exchanging messages between Nodes and making sure that the right message goes to the right Node. For example: A publisher Node has two Nodes that are subscribed to it. The publisher Node now does not directly send the messages to the two subscriber Nodes, but instead sends it to a Topic which then distributes the message to the two subscriber Nodes. Coming back to the newspaper analogy: The newspaper company does not directly deliver the magazines or newspaper to each individual customer, but instead gives it to a post office, which in this case would be the Topic, and this Post office then distributes the newspapers to all the subscribed customers.</p>
+<p><img alt="nodes_topics" src="_images/nodes_topics.svg" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="bp">self</span><span class="o">.</span><span class="n">cmd_vel_pub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_publisher</span><span class="p">(</span>
+                <span class="n">Twist</span><span class="p">,</span>      <span class="c1"># message type</span>
+                <span class="s1">&#39;cmd_vel&#39;</span><span class="p">,</span>  <span class="c1"># topic name</span>
+                <span class="mi">1</span><span class="p">)</span>          <span class="c1"># history depth</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scan_sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_subscription</span><span class="p">(</span>
+                <span class="n">LaserScan</span><span class="p">,</span>
+                <span class="s1">&#39;scan&#39;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scan_callback</span><span class="p">,</span>  <span class="c1"># function to run upon message arrival</span>
+                <span class="n">qos_profile_sensor_data</span><span class="p">)</span>  <span class="c1"># allows packet loss</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">odom_sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_subscription</span><span class="p">(</span>
+                <span class="n">Odometry</span><span class="p">,</span>
+                <span class="s1">&#39;odom&#39;</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">odom_callback</span><span class="p">,</span>
+                <span class="n">qos_profile_sensor_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In our case in our code, we publish information to the wheels, which is <code class="docutils literal notranslate"><span class="pre">cmd_vel_pub</span></code>, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. Each of these Nodes also has a Topic associated with them that handles the exchange of messages regarding this Node. Lastly, the two subcriber Nodes <code class="docutils literal notranslate"><span class="pre">scan_sub</span></code> and <code class="docutils literal notranslate"><span class="pre">odom_sub</span></code> each have a function associated to them that executes each time a message is received by the respective Node. The Node <code class="docutils literal notranslate"><span class="pre">scan_sub</span></code> has the function <code class="docutils literal notranslate"><span class="pre">scan_callback</span></code> associated to it, while the Node <code class="docutils literal notranslate"><span class="pre">odom_sub</span></code> has the function <code class="docutils literal notranslate"><span class="pre">odom_callback</span></code> associated to it.</p>
+</div>
 <div class="section" id="problems">
 <h2>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="challenge-2-rotation-with-laser-distance-sensor-data">
