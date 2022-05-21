@@ -6,7 +6,7 @@ This report contains documentation of our activities during the university cours
 
 ## ROS2 Concepts
 
-ROS stands for "Robot Operating System" and is a set of software libraries and tools for building robot applications. To put it more simply, ROS2 allows you to control the robot and determine how the robot will interact with its environment under certain circumstances. For example, using ROS2 you can get data from sensors that are attached to the robot and with this data, you can then write a python script to program the robot to behave in a specific way for specific data values. To understand how this works you need to understand two important concepts of ROS2: Nodes and Topics. Nodes and Topics work hand in hand and therefore you have to understand both. I will start with ROS2 Nodes: One ROS2 Node is responsible for handling one component of the robot, for example, the sensor. Therefore it is logical to assume that you need multiple Nodes to be able to control any part of the robot. Now, these Nodes can send messages that contain data to other Nodes, allowing the individual parts of the robot to communicate with each other. This works based on the Publisher-Subscriber principle. Nodes that send messages to other nodes are Publishers, Nodes that receive data from other Nodes are called subscribers. A node can also be a subscriber and publisher at the same time. A good analogy is newspaper subscriptions: People subscribe to certain magazines or newspapers to receive them regularly, which makes them subscribers. The newspaper company that is printing them and sending them out is the publisher. Now, these messages the nodes are publishing do not go directly to the respective subscriber nodes. Instead they go to Topics. Topics are responsible for exchanging messages between Nodes and making sure that the right message goes to the right Node. For example: A publisher Node has two Nodes that are subscribed to it. The publisher Node now does not directly send the messages to the two subscriber Nodes, but instead sends it to a Topic which then distributes the message to the two subscriber Nodes. Coming back to the newspaper analogy: The newspaper company does not directly deliver the magazines or newspaper to each individual customer, but instead gives it to a post office, which in this case would be the Topic, and this Post office then distributes the newspapers to all the subscribed customers.
+ROS stands for "Robot Operating System" and is a set of software libraries and tools for building robot applications. To put it more simply, ROS2 allows you to control the robot and determine how the robot will interact with its environment under certain circumstances. For example, using ROS2 you can get data from sensors that are attached to the robot and with this data, you can then write a python script to program the robot to behave in a specific way for specific data values. To understand how this works you need to understand two important concepts of ROS2: Nodes and Topics. Nodes and Topics work hand in hand and therefore you have to understand both. I will start with ROS2 Nodes: One ROS2 Node should be responsible for handling one component of the robot, for example, the sensor. This helps you modularise your code. Therefore it is logical to assume that you need multiple Nodes to be able to control any part of the robot. Now, these Nodes can send messages that contain data to other Nodes, allowing the individual parts of the robot to communicate with each other. This works based on the Publisher-Subscriber principle. Nodes that send messages to other nodes are Publishers, Nodes that receive data from other Nodes are called subscribers. A node can also be a subscriber and publisher at the same time. A good analogy is newspaper subscriptions: People subscribe to certain magazines or newspapers to receive them regularly, which makes them subscribers. The newspaper company that is printing them and sending them out is the publisher. Now, these messages the nodes are publishing do not go directly to the respective subscriber nodes. Instead they go to Topics. Topics are responsible for exchanging messages between Nodes and making sure that the right message goes to the right Node. A Node can also send messages to multiple Topics. An example: A publisher Node has two Nodes that are subscribed to it. The publisher Node now does not directly send the messages to the two subscriber Nodes, but instead sends it to a Topic which then distributes the message to the two subscriber Nodes. Coming back to the newspaper analogy: The newspaper company does not directly deliver the magazines or newspaper to each individual customer, but instead gives it to a post office, which in this case would be the Topic, and this Post office then distributes the newspapers to all the subscribed customers.
 
 ![nodes_topics](_static/nodes_topics.svg)
 
@@ -29,7 +29,7 @@ ROS stands for "Robot Operating System" and is a set of software libraries and t
                 qos_profile_sensor_data)
 ```
 
-In our case in our code, we publish information to the wheels, which is `cmd_vel_pub`, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. Each of these Nodes also has a Topic associated with them that handles the exchange of messages regarding this Node. Lastly, the two subcriber Nodes `scan_sub` and `odom_sub` each have a function associated to them that executes each time a message is received by the respective Node. The Node `scan_sub` has the function `scan_callback` associated to it, while the Node `odom_sub` has the function `odom_callback` associated to it.
+In our case in our code, we publish information to the robot, more specifically the wheels, which is the Publisher `cmd_vel_pub`, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. We have one Node called Tb3 which is a Subscriber as well as a Publisher. It contains two Subscribers named `scan_sub` and `odom_sub` and a Publisher called `cmd_vel_pub`. Each of these Subscribers and Publishers also has a Topic associated with them that handles the exchange of messages regarding this Publisher or Subscriber. The two Subscribers `scan_sub` and `odom_sub` each have a function associated with them that executes each time a message is received by the respective Subscriber. These functions are being linked to the respective Subscriber through `create_subscription` as seen above. The Subscriber `scan_sub` has the function `scan_callback` associated with it, while the Subscriber `odom_sub` has the function `odom_callback` associated with it.
 
 ## Problems
 
@@ -55,7 +55,7 @@ The way our code works and the basic concept of it is quite simple. The robot al
 
 ### STATE_SEARCH
 
-```sh
+```python
         if self.state == STATE_SEARCH:
             if is_next_to_wall:
                 self.state = STATE_ALONG_WALL
@@ -65,7 +65,7 @@ The way our code works and the basic concept of it is quite simple. The robot al
 
 This is the state that the robot first starts in when the code is executed. In a nutshell, this state checks if the robot is next to a wall or not. All this state contains is a simple if-else statement that checks if the `is_next_to_wall` variable is `True` or `False`. The `is_next_to_wall` variable shows if there is a wall to the right side of the robot. The way we have defined that is by implementing a function called `next_to_wall` and assigning the `is_next_to_wall` variable to this function. If the variable `is_next_to_wall` is `True` then the robot goes into the state `STATE_ALONG_WALL`, if it is `False` the robot goes into the state `STATE_TO_WALL`.
 
-```sh
+```python
 def next_to_wall(ranges, degree=45):
     distance = min(ranges[270-degree:270+degree-1])
 
@@ -79,7 +79,7 @@ This method returns `True` if the robot is close enough near a wall within a 45-
 
 ### STATE_TO_WALL
 
-```sh
+```python
         if self.state == STATE_TO_WALL:
             if min_distance < DISTANCE_SAFE * 2:
                 self.vel(0, 0)
@@ -92,7 +92,7 @@ If the robot is in this state, it means that the robot can not detect a wall at 
 
 ### STATE_ALONG_WALL
 
-```sh
+```python
         if self.state == STATE_ALONG_WALL:
             center = find_center(msg.intensities, 1.5, 2.5)
 
@@ -103,7 +103,7 @@ If the robot is in this state, it means that the robot can not detect a wall at 
 
 If the robot is in this state, it means that it found a wall on the right side and it drove towards it. The first thing the robot does is check if the wall that it is next to is the red wall. This is being done through the `find_center` function, which checks if the robot is near the center of a red wall, based on intensities returned from the scan. If the wall the robot is next to has an intensity of 2, meaning that it is red, and if it is in the center of the red wall, with an error range of +- 10 degrees, the robot stops and the program exits.
 
-```sh
+```python
             if forward_distance < DISTANCE_CLOSE:
                 self.vel(0, SPEED)
             else:
