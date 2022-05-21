@@ -27,7 +27,7 @@ ROS stands for "Robot Operating System" and is a set of software libraries and t
                 qos_profile_sensor_data)
 ```
 
-In our case in our code, we publish information to the wheels, which is `cmd_vel_pub`, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. Each of these Nodes also has a Topic associated with them that handles the exchange of messages regarding this Node. Lastly, the two subcriber Nodes `scan_sub` and `odom_sub` each have a function associated to them that executes each time a message is received by the respective Node.
+In our case in our code, we publish information to the wheels, which is `cmd_vel_pub`, to be able to move the robot and we subscribe to the laser sensor, and the Odometry data, to get the data we need to tell our robot how to move so that he does not drive into any walls. Each of these Nodes also has a Topic associated with them that handles the exchange of messages regarding this Node. Lastly, the two subcriber Nodes `scan_sub` and `odom_sub` each have a function associated to them that executes each time a message is received by the respective Node. The Node `scan_sub` has the function `scan_callback` associated to it, while the Node `odom_sub` has the function `odom_callback` associated to it.
 
 ## Problems
 
