@@ -72,9 +72,14 @@ The method is first called with a linear velocity value greater than 0 to start 
 ## Challenge 2 - State machine
 
 This challenge requires todo multiple steps after each other.
-First, it requires driving forward as done in the last challenge, then the robot should rotate.
+First, it requires driving forward, as done in the last challenge, and then the robot should rotate.
 Initially, the state is `FORWARD` for the first step.
 Once the wall is reached, the state is changed to `ROTATE`, and the linear velocity is set to 0 and the angular velocity to a value greater than 0.
+With a fixed acceleration and speed, it should be possible to rotate for a specific time to turn the required 90-degrees.
+In reality, it didn't work out as well as expected.
+Probably some timing differences in the asynchronous code handling caused some issues.
+After some tweaking, like reducing the maximum speed, it worked for most causes.
+Using the laser distance sensor would have been a better solution. 
 The required 90-degree rotation can be detected by evaluating the distance to the right.
 The rotation is finished once the value is close to the value measured to the front after the `FORWARD` -> `ROTATE` state change.
 
