@@ -1,7 +1,95 @@
 # THD-PLV2 - Turtlebot3 maze challenges (Thomas Bergwinkl)
 
-The challenges 0 to 3 focus more on the usage of the API.
-This document is about approaches for autonomous robots, and that's why the first four challenges are not covered.
+During the week of the 7th of march in 2022, I mastered the [Turtlebot3 maze challenges](https://mygit.th-deg.de/gaydos/tb3-maze-challenges) together with Quirin Wieser in the curse KI-BI-PLV2 held by [Prof. Gökçe Aydos](https://aydos.de/uni).
+This document describes the approaches and pitfalls of getting a [Turtlebot3](https://www.turtlebot.com/), running [ROS - Robot Operating System](https://www.ros.org/), through different mazes.
+This covers reading sensor data, sending commands to actuators, and some smart logic to combine both.
+All of this was done in Python.
+
+## Challenge 0 - Subscribe
+
+The first challenge is about retrieving values from the laser distance sensor.
+Before this can be done, the publish-subscribe pattern of ROS needs to be understood.
+The written program will act as a node that subscribes to the ROS message bus.
+Each node acts independently and communicates only over the message bus.
+The messages are separated into topics.
+A topic can be used to broadcast sensor information or send commands to actuators.
+This pattern is used for loose coupling for a modular codebase.
+The messages of the laser distance sensor are published to the `scan` topic.
+A class for the message type must be given, which will be used to deserialize the message into a Python object.
+For the current use case, it's the class `sensor_msgs.msg.LaserScan`.
+Last but not least, the piece of code of the node that handles the incoming messages must be defined.
+The method `scan_callback` is used, post-fixed with the name of the event-based programming pattern.
+The code to subscribe looks like this:
+
+```python
+self.create_subscription(
+  LaserScan,
+  'scan',
+  self.scan_callback,
+  qos_profile_sensor_data)
+```
+
+And the code for the callback method to write the distance to the front looks like this:
+
+```python
+def scan_callback(self, msg):
+  print('distance front:', msg.ranges[0])
+```
+
+Behind the scenes, the laser distance sensor also acts as a node.
+It's acting as the counterpart on the `scan` topic.
+Whenever the physical sensor throws an interrupt for successfully measuring the distances for a full circle, the data is received from the physical sensor.
+Then the software part of the sensor publishes the data in the predefined data structure and topic.
+
+![node_topic](_static/node_topic.svg)
+
+## Challenge 1 - Publish
+
+The second challenge is about driving the robot until it reaches a certain distance to the wall.
+This requires publishing messages which will make the wheels of the robot move.
+Once the distance is below a given threshold, another message will be published to stop the robot.
+Again it's required to know the topic and the message type.
+For this use case, the topic is `cmd_vel`, and the message type `geometry_msgs.msg.Twist`.
+The publisher instance can be created with the code below:
+
+```python
+self.cmd_vel_pub = self.create_publisher(
+  Twist,
+  'cmd_vel',
+  1)
+```
+
+Publishing a message is done like this:
+
+```python
+self.cmd_vel_pub.publish(cmd_vel_msg)
+```
+
+The `Twist` message type requires knowing some hardware-specific limits.
+Luckily the `tb3-ros2-template` provides a `vel` method that wraps the code for publishing and abstracts the arguments to linear and angular percentage values.
+The method is first called with a linear velocity value greater than 0 to start the robot, and inside the `scan_callback`, it's called again to stop the robot when the given front distance value is reached.
+
+## Challenge 2 - State machine
+
+This challenge requires todo multiple steps after each other.
+First, it requires driving forward, as done in the last challenge, and then the robot should rotate.
+Initially, the state is `FORWARD` for the first step.
+Once the wall is reached, the state is changed to `ROTATE`, and the linear velocity is set to 0 and the angular velocity to a value greater than 0.
+With a fixed acceleration and speed, it should be possible to rotate for a specific time to turn the required 90-degrees.
+In reality, it didn't work out as well as expected.
+Probably some timing differences in the asynchronous code handling caused some issues.
+After some tweaking, like reducing the maximum speed, it worked for most causes.
+Using the laser distance sensor would have been a better solution. 
+The required 90-degree rotation can be detected by evaluating the distance to the right.
+The rotation is finished once the value is close to the value measured to the front after the `FORWARD` -> `ROTATE` state change.
+
+## Challenge 3 - New message type
+
+This challenge is the same as the previous one.
+It's just required to handle a new type of message from a new topic.
+The `odom` topic gives us the position and orientation of the robot.
+A conversion is required to make the values of the message type more useful.
+The requirements document links to a function that can be used.
 
 ## Challenge 4 - First approach
 
