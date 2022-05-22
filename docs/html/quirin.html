@@ -67,7 +67,7 @@
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Durchsuchen Sie die Dokumente ..." aria-label="Durchsuchen Sie die Dokumente ..." autocomplete="off" >
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         
@@ -96,14 +96,14 @@
             <div class="topbar-left">
                 
                 <label class="nav-toggle-button" for="__navigation">
-                    <div class="visually-hidden">Navigation umschalten</div>
+                    <div class="visually-hidden">Toggle navigation</div>
                     <i class="fas fa-bars"></i>
                 </label>
                 
             </div>
             
 <div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Laden Sie diese Seite herunter"><i
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
             class="fas fa-download"></i></button>
 
     <div class="dropdown-buttons">
@@ -111,10 +111,10 @@
         
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="_sources/quirin.md.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Quelldatei herunterladen" data-toggle="tooltip"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="In PDF drucken"
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
@@ -124,8 +124,8 @@
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Vollbildmodus"
-        title="Vollbildmodus"><i
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
@@ -136,7 +136,7 @@
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Inhalt
+                <i class="fas fa-list"></i> Contents
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
@@ -185,6 +185,11 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#state-to-wall">
      STATE_TO_WALL
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-along-wall">
+     STATE_ALONG_WALL
     </a>
    </li>
   </ul>
@@ -242,7 +247,7 @@
                     <div id="jb-print-toc">
                         
                         <div>
-                            <h2> Inhalt </h2>
+                            <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
@@ -291,6 +296,11 @@
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#state-to-wall">
      STATE_TO_WALL
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#state-along-wall">
+     STATE_ALONG_WALL
     </a>
    </li>
   </ul>
@@ -369,6 +379,7 @@
 <div class="section" id="relevant-concepts">
 <h2>Relevant Concepts<a class="headerlink" href="#relevant-concepts" title="Permalink to this headline">¶</a></h2>
 <p>The way our code works and the basic concept of it is quite simple. The robot always searches for and drives alongside the right wall, until it reaches a red wall, at which point the robot stops and the program exits. For that, we have defined three states: <code class="docutils literal notranslate"><span class="pre">STATE_SEARCH</span></code>, <code class="docutils literal notranslate"><span class="pre">STATE_TO_WALL</span></code> and <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>. Each of these states contains instructions on what the robot should do, depending on what state it is in and each of these states is in the <code class="docutils literal notranslate"><span class="pre">scan_callback</span></code> function, which means that they will be executed over and over again through the <code class="docutils literal notranslate"><span class="pre">rclpy.spin</span></code> function.</p>
+<p><img alt="state diagram" src="_images/state_diagram.svg" /></p>
 <div class="section" id="state-search">
 <h3>STATE_SEARCH<a class="headerlink" href="#state-search" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> self.state <span class="o">==</span> STATE_SEARCH:
@@ -401,6 +412,25 @@
 </pre></div>
 </div>
 <p>If the robot is in this state, it means that the robot can not detect a wall at the right side. Similar to the previous state, <code class="docutils literal notranslate"><span class="pre">STATE_SEARCH</span></code>, this state just contains an if-else statement. If the robot is not in front of a wall, it just keeps driving forward. When the robot is a certain distance away from the wall, it stops and goes into the state <code class="docutils literal notranslate"><span class="pre">STATE_ALONG_WALL</span></code>. The <code class="docutils literal notranslate"><span class="pre">DISTANCE_SAFE</span> <span class="pre">*</span> <span class="pre">2</span></code> is the maximum distance the robot is allowed to drive to the wall to prevent the robot from colliding with the wall and also giving it enough space to be able to rotate without colliding with a wall.</p>
+</div>
+<div class="section" id="state-along-wall">
+<h3>STATE_ALONG_WALL<a class="headerlink" href="#state-along-wall" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> self.state <span class="o">==</span> STATE_ALONG_WALL:
+            <span class="nv">center</span> <span class="o">=</span> find_center<span class="o">(</span>msg.intensities, <span class="m">1</span>.5, <span class="m">2</span>.5<span class="o">)</span>
+
+            <span class="k">if</span> center !<span class="o">=</span> -1 and abs<span class="o">(</span>center - <span class="m">270</span><span class="o">)</span> &lt; <span class="m">10</span>:
+                self.vel<span class="o">(</span><span class="m">0</span>, <span class="m">0</span><span class="o">)</span>
+                exit<span class="o">()</span>
+</pre></div>
+</div>
+<p>If the robot is in this state, it means that it found a wall on the right side and it drove towards it. The first thing the robot does is check if the wall that it is next to is the red wall. This is being done through the <code class="docutils literal notranslate"><span class="pre">find_center</span></code> function, which checks if the robot is near the center of a red wall, based on intensities returned from the scan. If the wall the robot is next to has an intensity of 2, meaning that it is red, and if it is in the center of the red wall, with an error range of +- 10 degrees, the robot stops and the program exits.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> forward_distance &lt; DISTANCE_CLOSE:
+                self.vel<span class="o">(</span><span class="m">0</span>, SPEED<span class="o">)</span>
+            <span class="k">else</span>:
+                self.vel<span class="o">(</span>forward_factor * SPEED, angle_factor * SPEED<span class="o">)</span>
+</pre></div>
+</div>
+<p>If the robot is not next to the red wall, it will just keep driving alongside the wall until it detects a wall in front of it, in which case it will rotate and continue to drive alongside the walls. We have defined the factors <code class="docutils literal notranslate"><span class="pre">forward_factor</span></code> and <code class="docutils literal notranslate"><span class="pre">angle_factor</span></code> so that the robot’s speed is dependent on the distance to the walls. This way we avoid the robot driving too fast towards a wall and not being able to rotate in time, when it has to do a 180-degree rotation around a divider wall for example.</p>
 </div>
 </div>
 <div class="section" id="approaches-and-solutions">
@@ -445,9 +475,9 @@
     <footer class="footer">
   <p>
     
-      Durch Thomas Bergwinkl, Quirin Wieser<br/>
+      By Thomas Bergwinkl, Quirin Wieser<br/>
     
-        &copy; Urheberrechte © MIT.<br/>
+        &copy; Copyright MIT.<br/>
   </p>
 </footer>
 </main>
