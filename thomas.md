@@ -1,9 +1,9 @@
 # THD-PLV2 - Turtlebot3 maze challenges (Thomas Bergwinkl)
 
 During the week of the 7th of march in 2022, I mastered the [Turtlebot3 maze challenges](https://mygit.th-deg.de/gaydos/tb3-maze-challenges) together with Quirin Wieser in the curse KI-BI-PLV2 held by [Prof. Gökçe Aydos](https://aydos.de/uni).
-This document describes the approaches and pitfalls of getting a [Turtlebot3](https://www.turtlebot.com/), running [ROS - Robot Operating System](https://www.ros.org/), through different mazes.
-This covers reading sensor data, sending commands to actuators, and some smart logic to combine both.
-All of this was done in Python.
+This document describes the approaches and pitfalls of getting a [Turtlebot3](https://www.turtlebot.com/), running [ROS - Robot Operating System](https://www.ros.org/), through different mazes with some user code written in Python.
+Each challenge covers a new topic, starting from the publish-subscribe pattern used by ROS for the communication of different code modules, sensors and how the data they provide can be used and sending commands to drive the robot.
+The later challenges are more tricky and require combining all learned technologies and patterns with state machines.
 
 ## Challenge 0 - Subscribe
 

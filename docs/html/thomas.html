@@ -67,7 +67,7 @@
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Durchsuchen Sie die Dokumente ..." aria-label="Durchsuchen Sie die Dokumente ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
         
@@ -96,14 +96,14 @@
             <div class="topbar-left">
                 
                 <label class="nav-toggle-button" for="__navigation">
-                    <div class="visually-hidden">Toggle navigation</div>
+                    <div class="visually-hidden">Navigation umschalten</div>
                     <i class="fas fa-bars"></i>
                 </label>
                 
             </div>
             
 <div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Laden Sie diese Seite herunter"><i
             class="fas fa-download"></i></button>
 
     <div class="dropdown-buttons">
@@ -111,10 +111,10 @@
         
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="_sources/thomas.md.txt"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                class="btn btn-secondary topbarbtn" title="Quelldatei herunterladen" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="In PDF drucken"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
@@ -124,8 +124,8 @@
             <!-- Full screen (wrap in <a> to have style consistency -->
 
 <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Vollbildmodus"
+        title="Vollbildmodus"><i
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
@@ -136,7 +136,7 @@
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+                <i class="fas fa-list"></i> Inhalt
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
@@ -237,7 +237,7 @@
                     <div id="jb-print-toc">
                         
                         <div>
-                            <h2> Contents </h2>
+                            <h2> Inhalt </h2>
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
@@ -334,9 +334,9 @@
   <div class="section" id="thd-plv2-turtlebot3-maze-challenges-thomas-bergwinkl">
 <h1>THD-PLV2 - Turtlebot3 maze challenges (Thomas Bergwinkl)<a class="headerlink" href="#thd-plv2-turtlebot3-maze-challenges-thomas-bergwinkl" title="Permalink to this headline">¶</a></h1>
 <p>During the week of the 7th of march in 2022, I mastered the <a class="reference external" href="https://mygit.th-deg.de/gaydos/tb3-maze-challenges">Turtlebot3 maze challenges</a> together with Quirin Wieser in the curse KI-BI-PLV2 held by <a class="reference external" href="https://aydos.de/uni">Prof. Gökçe Aydos</a>.
-This document describes the approaches and pitfalls of getting a <a class="reference external" href="https://www.turtlebot.com/">Turtlebot3</a>, running <a class="reference external" href="https://www.ros.org/">ROS - Robot Operating System</a>, through different mazes.
-This covers reading sensor data, sending commands to actuators, and some smart logic to combine both.
-All of this was done in Python.</p>
+This document describes the approaches and pitfalls of getting a <a class="reference external" href="https://www.turtlebot.com/">Turtlebot3</a>, running <a class="reference external" href="https://www.ros.org/">ROS - Robot Operating System</a>, through different mazes with some user code written in Python.
+Each challenge covers a new topic, starting from the publish-subscribe pattern used by ROS for the communication of different code modules, sensors and how the data they provide can be used and sending commands to drive the robot.
+The later challenges are more tricky and require combining all learned technologies and patterns with state machines.</p>
 <div class="section" id="challenge-0-subscribe">
 <h2>Challenge 0 - Subscribe<a class="headerlink" href="#challenge-0-subscribe" title="Permalink to this headline">¶</a></h2>
 <p>The first challenge is about retrieving values from the laser distance sensor.
@@ -524,9 +524,9 @@ A PID controller should solve that problem.</p>
     <footer class="footer">
   <p>
     
-      By Thomas Bergwinkl, Quirin Wieser<br/>
+      Durch Thomas Bergwinkl, Quirin Wieser<br/>
     
-        &copy; Copyright MIT.<br/>
+        &copy; Urheberrechte © MIT.<br/>
   </p>
 </footer>
 </main>
